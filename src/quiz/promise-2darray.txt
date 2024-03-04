@@ -1,1 +1,7 @@
 Explain the code execution based on the order of the messages logged in src/quiz/promise-2darray.txt.
+
+1. When sum2DArray is called, it immediately logs 'Sum called ... '.
+2. It then checks if the input is an array. If yes, it schedules a setTimeout to calculate the sum. If not, it immediately rejects the promise and logs 'rejecting ... '.
+3. Regardless of the outcome, it logs 'returning from sum' right after setting up the promise but before the promise is resolved or rejected. This is because the promise executor function (the function passed to the new Promise constructor) executes synchronously, but the resolve or reject calls within setTimeout are asynchronous.
+4. The 'resolving ... ' log or the rejection message will be delayed at least until the next tick of the JavaScript event loop, due to the use of setTimeout.
+5. The console.log(sumPromise1); and console.log(sumPromise2); statements log the promise objects themselves immediately after the function calls. They do not wait for the promises to settle (resolve or reject). Thus, they do not log the sum or the rejection message. To see the result of the promise, you need to use .then() and .catch() as shown in the fixed code.
